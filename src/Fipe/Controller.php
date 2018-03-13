@@ -141,6 +141,24 @@ class Controller
     }
 
     /**
+     * Ação Extrai Veículos
+     *
+     * @param integer $tabelaId Tabela Id
+     * @param integer $tipo     Tipo
+     * @param integer $marcaId  Marca Id
+     * @param integer $modeloId Modelo Id
+     *
+     * @return JsonResponse
+     */
+    public function extractVeiculoAction($tabelaId, $tipo, $marcaId, $modeloId, $ano, $comb)
+    {
+        $tmpVeiculos = $this->crawler->extractVeiculo($tabelaId, $tipo, $marcaId, $modeloId, $ano, $comb);
+        $this->db->saveVeiculoCompletos($tmpVeiculos);
+
+        return new JsonResponse($tmpVeiculos, 200);
+    }
+
+    /**
      * Ação Extrai Modelos
      *
      * @param integer $tabelaId Tabela Id

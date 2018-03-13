@@ -178,7 +178,7 @@ class Crawler
      *
      * @return array
      */
-    public function getAnoModelos($tabelaId, $tipo, $marcaId, $modeloId)
+    public function getAnoModelos($tabelaId, $tipo, $marcaId, $modeloId, $ano)
     {
         $params = array(
             'codigoTipoVeiculo'      => $tipo,
@@ -187,7 +187,7 @@ class Crawler
             'codigoMarca'            => $marcaId,
             'ano'                    => '',
             'codigoTipoCombustivel'  => '',
-            'anoModelo'              => '',
+            'anoModelo'              => $ano,
             'modeloCodigoExterno'    => '',
         );
         $url     = self::$urls['anoModelos'];
@@ -418,7 +418,7 @@ class Crawler
      *
      * @return array
      */
-    public function extractVeiculos($tabelaId, $tipo, $marcaId, $modeloId, $getResult = false)
+    public function extractVeiculos($tabelaId, $tipo, $marcaId, $modeloId, $getResult = false, $ano = '')
     {
         $this->stopwatch->start('progress');
         $results = array();
@@ -426,7 +426,8 @@ class Crawler
             $tabelaId,
             $tipo,
             $marcaId,
-            $modeloId
+            $modeloId,
+            $ano
         );
         foreach ($anoModelos as $id => $anoModelo) {
             $tmpValue = explode('-', $id);
@@ -484,6 +485,34 @@ class Crawler
         if ($getResult) {
             $data['results'] = $results;
         }
+
+        return $data;
+    }
+
+    /**
+     * Extrai veículos
+     *
+     * @param integer $tabelaId  Tabela Id
+     * @param integer $tipo      Tipo
+     * @param integer $marcaId   Marca Id
+     * @param integer $modeloId  Modelo Id
+     * @param boolean $getResult Recuperar ou não resultados
+     *
+     * @return array
+     */
+    public function extractVeiculo($tabelaId, $tipo, $marcaId, $modeloId, $ano, $comb)
+    {
+        $data = array();        
+        
+        $data = $this->getVeiculo(
+            $tabelaId,
+            $tipo,
+            $marcaId,
+            $modeloId,
+            $comb,
+            $ano
+        );
+    
 
         return $data;
     }

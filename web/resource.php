@@ -16,10 +16,11 @@ $tabelaId   = $tabela['tabela_id'];
 
 $controller = new Controller($request, $db);
 $action     = $request->get('action', '404');
-// $tabelaId   = $request->get('tabela', null);
 $tipo       = $request->get('tipo', null);
 $marcaId    = $request->get('marca', null);
 $modeloId   = $request->get('modelo', null);
+$ano        = $request->get('ano', null);
+$comb       = $request->get('comb', null);
 
 
 switch ($action) {
@@ -42,6 +43,10 @@ switch ($action) {
 
     case 'extract_veiculos':
         $response = $controller->extractVeiculosAction($tabelaId, $tipo, $marcaId, $modeloId);
+        break;
+
+    case 'extract_veiculo':
+        $response = $controller->extractVeiculoAction($tabelaId, $tipo, $marcaId, $modeloId, $ano, $comb);
         break;
 
     case 'extract_modelos_veiculos':
