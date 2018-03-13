@@ -12,8 +12,7 @@ $request    = Request::createFromGlobals();
 $db         = new Fipe\Database($db['host'], $db['dbname'], $db['user'], $db['pass']);
 
 $tabela     = $db->findTabelaAtual();
-print_r($tabela);die();
-$tabelaId   = $tabela->tabela_id;
+$tabelaId   = $tabela['tabela_id'];
 
 $controller = new Controller($request, $db);
 $action     = $request->get('action', '404');
