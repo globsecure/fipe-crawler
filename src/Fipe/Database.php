@@ -400,6 +400,31 @@ class Database
      *
      * @return array
      */
+    public function findTabelaAtual()
+    {
+        $sql = "SELECT DISTINCT tabela_id, anoref, mesref, tipo FROM veiculo_completo ORDER BY anoref DESC, mesref DESC, tipo limit 1";
+        $stmt = $this->conn->prepare($sql, array(\PDO::ATTR_CURSOR => \PDO::CURSOR_FWDONLY));
+        $stmt->execute();
+        $tabelasResult = $stmt->fetch(\PDO::FETCH_ASSOC);
+        $mesesFlip = array_flip(self::$meses);
+        $tabelas = array();
+        foreach ($tabelasResult as $tab) {
+            $mesref    = str_pad($tab['mesref'], 2, '0', STR_PAD_LEFT);
+            $mesref    = $mesesFlip[$mesref];
+            $tabelas[] = array(
+                'id'  => $tab['tabela_id'].'-'.$tab['tipo'],
+                'lbl' => "{$mesref}/{$tab['anoref']} - ".self::$tipos[$tab['tipo']],
+            );
+        }
+
+        return $tabelas;
+    }
+
+    /**
+     * Recupera tabelas
+     *
+     * @return array
+     */
     public function findTabelas()
     {
         $sql = "SELECT DISTINCT tabela_id, anoref, mesref, tipo FROM veiculo_completo ORDER BY anoref DESC, mesref DESC, tipo";

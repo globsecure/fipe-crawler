@@ -6,10 +6,17 @@ use Symfony\Component\HttpFoundation\Request;
 use Fipe\Controller;
 
 $request    = Request::createFromGlobals();
+
+
+// Querys - DB
 $db         = new Fipe\Database($db['host'], $db['dbname'], $db['user'], $db['pass']);
+
+$tabela     = $db->findTabelaAtual();
+$tabelaId   = $tabela->tabela_id;
+
 $controller = new Controller($request, $db);
 $action     = $request->get('action', '404');
-$tabelaId   = $request->get('tabela', null);
+// $tabelaId   = $request->get('tabela', null);
 $tipo       = $request->get('tipo', null);
 $marcaId    = $request->get('marca', null);
 $modeloId   = $request->get('modelo', null);
