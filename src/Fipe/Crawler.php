@@ -504,7 +504,7 @@ class Crawler
     {
         $data = array();        
         
-        $data = $this->getVeiculo(
+        $data['results'] = $this->getVeiculo(
             $tabelaId,
             $tipo,
             $marcaId,
